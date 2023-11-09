@@ -4,6 +4,8 @@ const { strict } = require('assert');
 const { setTimeout } = require('timers');
 const path = require("path");
 const individualServices = require( "../../IndividualServicesService.js");
+const shuffleArray = require('shuffle-array');
+
 
 const DEVICE_NOT_PRESENT = -1;
 let maximumNumberOfRetries = 1;
@@ -467,6 +469,9 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
     
     odlDeviceList = filterConnectedDevices(odlDeviceList);
     printLog(printList('Device List (ODL)', odlDeviceList), print_log_level >= 1);
+
+    odlDeviceList = shuffleArray(odlDeviceList);
+    printLog(printList('Device List (ODL) shuffled', odlDeviceList), print_log_level >= 1);
 
     try {
         let elasticsearchList = await individualServices.readDeviceListFromElasticsearch();
